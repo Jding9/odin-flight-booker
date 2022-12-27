@@ -1,0 +1,8 @@
+<h1>Flight Information</h1>
+    <%= @booking.flight_id %>
+<h1>Passenger Information</h1>
+    <% @booking.passengers.each do |passenger| %>
+        <%= passenger.name %>
+        <%= passenger.email %>
+        <br>
+    <% end%>

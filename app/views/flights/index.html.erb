@@ -1,0 +1,47 @@
+<h1>Flight Booker</h1>
+
+<%= form_with(method: "get", local: true) do |f| %>
+    <%= f.label :query, "Search for a flight" %> <br>
+
+    <%= f.label :departure_airport, "Departure Airport" %>
+    <%= select_tag(:departure_airport_id, options_for_select(@airport_options)) %> <br>
+
+    <%= f.label :arrival_airport, "Arrival Airport" %>
+    <%= select_tag(:arrival_airport_id, options_for_select(@airport_options)) %> <br>
+
+    <%= f.label :start_time, "Flight Start Time" %>
+    <%= select_tag(:start_time, options_for_select(@start_time_options)) %> <br>
+
+    <%= f.label :passenger_count, "Number of Passengers" %>
+    <%= select_tag(:passenger_count, options_for_select([1, 2, 3, 4])) %> <br>
+
+    <%= f.submit "Search", name:nil %>
+<% end %>
+
+<h1>Here are all available flights</h1>
+
+<% @flights.each do |flight| %>
+    <ul>
+        Flight ID: <%= flight.id %> <br>
+        Flight Start Time: <%= flight.start_time %> <br>
+        Flight Duration: <%= flight.duration %> <br>
+        Departure From: <%= @airports.find(flight.departure_airport_id).code %> <br>
+        Going To: <%= @airports.find(flight.arrival_airport_id).code %> <br>
+    </ul>
+<% end %>
+
+<% if @flights.empty? %>
+    <p>There are no flights available!</p>
+<% end %>
+
+<% if !@flights.empty? %>
+    <% flight = @flights.first %>
+    <% flight_id = @flights.first.id %>
+    
+    <%= form_with(url: "/bookings/new", method: :get) do |f| %>
+        <%= f.label(:flight_option, "Book This Flight") %>
+        <%= f.radio_button(:flight_id, flight.id) %>
+        <%= f.hidden_field(:passenger_count, value: params[:passenger_count]) %>
+        <%= f.submit "Book Flight" %>
+    <% end %>
+<% end %>

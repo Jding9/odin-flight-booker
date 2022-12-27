@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time: 2022-12-24 16:07:56
+  duration: 1.5
+  airport: one
+
+two:
+  start_time: 2022-12-24 16:07:56
+  duration: 1.5
+  airport: two

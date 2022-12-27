@@ -1,0 +1,26 @@
+<h1>Is this the correct flight?</h1>
+
+Flight Start Time: <%= @flight.start_time %> <br>
+Flight Duration: <%= @flight.duration %> <br>
+Departure From: <%= @airports.find(@flight.departure_airport_id).code %> <br>
+Going To: <%= @airports.find(@flight.arrival_airport_id).code %> <br>
+
+<%= form_with(model: @booking, method: 'post', local: true) do |f| %>
+    
+    <%= f.hidden_field(:flight_id, value: params[:flight_id]) %>
+
+    <% params[:passenger_count].to_i.times do %>
+        
+        <%= f.fields_for :passengers, @booking.passengers.build do |p| %>
+            <%= p.label :name, "Name: " %>
+            <%= p.text_field :name %> <br>
+            <%= p.label :email, "Email: " %>
+            <%= p.text_field :email %>
+            <br><br>
+        <% end %>
+
+    <% end %>
+
+    <%= f.submit "Confirm" %>
+
+<% end %>
